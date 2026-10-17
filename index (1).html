@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GDBY Marketing Solutions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root {
+    --ig: linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5);
+    --pink:#d62976; --orange:#fa7e1e; --purple:#962fbf; --yellow:#feda75;
+    --bg:#0b0710; --card:#16101d; --text:#f6f1fa; --muted:#a79bb5;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; }
+
+  /* animated background orbs */
+  .orb { position:fixed; border-radius:50%; filter:blur(100px); opacity:.4; z-index:-1; animation:float 14s ease-in-out infinite; }
+  .o1 { width:400px; height:400px; background:var(--purple); top:-120px; left:-120px; }
+  .o2 { width:360px; height:360px; background:var(--orange); bottom:-100px; right:-100px; animation-delay:-5s; }
+  .o3 { width:280px; height:280px; background:var(--pink); top:45%; left:55%; animation-delay:-9s; }
+  @keyframes float { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(40px,-50px) scale(1.15);} }
+
+  /* nav */
+  nav { position:fixed; top:0; width:100%; display:flex; justify-content:space-between; align-items:center; padding:16px 24px; background:rgba(11,7,16,.75); backdrop-filter:blur(12px); z-index:10; }
+  nav b { background:var(--ig); -webkit-background-clip:text; background-clip:text; color:transparent; font-size:1.2em; letter-spacing:1px; }
+  nav a { color:var(--muted); text-decoration:none; margin-left:18px; font-size:.9em; transition:color .3s; }
+  nav a:hover { color:var(--pink); }
+
+  /* brand badge */
+  .badge { display:inline-block; padding:8px 20px; margin-bottom:24px; border-radius:30px; font-size:.8em; font-weight:700; letter-spacing:3px; color:#fff; background:linear-gradient(var(--card),var(--card)) padding-box, var(--ig) border-box; border:2px solid transparent; animation:rise .8s ease both; }
+
+  /* hero */
+  header { min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:100px 20px 40px; }
+  h1 { font-size:clamp(2.2em,7vw,4.2em); background:var(--ig); background-size:200% auto; -webkit-background-clip:text; background-clip:text; color:transparent; animation:shine 6s linear infinite, rise 1s ease both; }
+  @keyframes shine { to { background-position:200% center; } }
+  .sub { color:var(--muted); font-size:1.15em; margin:16px 0 32px; animation:rise 1.2s ease both .3s; }
+  @keyframes rise { from{opacity:0; transform:translateY(30px);} to{opacity:1; transform:none;} }
+
+  .btn { display:inline-block; background:var(--ig); color:#fff; padding:14px 36px; border-radius:40px; text-decoration:none; font-weight:700; transition:transform .3s, box-shadow .3s; animation:pulse 2.5s infinite; }
+  .btn:hover { transform:translateY(-4px) scale(1.05); box-shadow:0 12px 30px rgba(214,41,118,.45); }
+  @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(214,41,118,.55);} 70%{box-shadow:0 0 0 18px rgba(214,41,118,0);} 100%{box-shadow:0 0 0 0 rgba(214,41,118,0);} }
+
+  /* sections */
+  section { max-width:1000px; margin:0 auto; padding:80px 20px; }
+  section h2 { text-align:center; font-size:2em; margin-bottom:40px; background:var(--ig); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:24px; }
+
+  /* gradient-border cards like an Instagram story ring */
+  .card { position:relative; background:var(--card); border-radius:22px; padding:32px 24px; text-align:center; transition:transform .4s, box-shadow .4s; z-index:0; }
+  .card::before { content:""; position:absolute; inset:-2px; border-radius:24px; background:var(--ig); z-index:-2; opacity:.35; transition:opacity .4s; }
+  .card::after { content:""; position:absolute; inset:0; border-radius:22px; background:var(--card); z-index:-1; }
+  .card:hover { transform:translateY(-10px) rotate(-.5deg); box-shadow:0 20px 40px rgba(0,0,0,.5); }
+  .card:hover::before { opacity:1; }
+  .card svg { width:56px; height:56px; stroke:url(#igg); fill:none; stroke-width:1.7; margin-bottom:18px; transition:transform .6s; }
+  .card:hover svg { transform:rotateY(360deg) scale(1.15); }
+  .card h3 { margin-bottom:10px; }
+  .card p { color:var(--muted); line-height:1.6; font-size:.95em; }
+
+  /* payment */
+  .pay { display:flex; flex-wrap:wrap; gap:16px; justify-content:center; }
+  .chip { background:var(--card); border:1px solid #2a2036; padding:18px 26px; border-radius:16px; transition:transform .3s, border-color .3s; }
+  .chip:hover { transform:scale(1.08); border-color:var(--pink); }
+  .note { text-align:center; color:var(--muted); margin-top:24px; font-size:.9em; }
+
+  /* terms */
+  details { background:var(--card); border:1px solid #2a2036; border-radius:14px; padding:18px 22px; margin-bottom:12px; transition:border-color .3s; }
+  details[open] { border-color:var(--pink); }
+  summary { cursor:pointer; font-weight:600; }
+  details p { color:var(--muted); margin-top:12px; line-height:1.6; font-size:.95em; animation:rise .5s ease both; }
+
+  footer { text-align:center; padding:60px 20px; color:var(--muted); font-size:.85em; }
+
+  /* scroll reveal */
+  .reveal { opacity:0; transform:translateY(60px) scale(.96); transition:opacity .9s ease, transform .9s ease; }
+  .reveal.show { opacity:1; transform:none; }
+  .grid .reveal:nth-child(2){ transition-delay:.15s; }
+  .grid .reveal:nth-child(3){ transition-delay:.3s; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="igg" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#feda75"/><stop offset=".3" stop-color="#fa7e1e"/>
+      <stop offset=".6" stop-color="#d62976"/><stop offset="1" stop-color="#962fbf"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+
+<nav>
+  <b>GDBY</b>
+  <div><a href="#services">Services</a><a href="#payment">Payment</a><a href="#terms">Terms</a></div>
+</nav>
+
+<header>
+  <div class="badge">GDBY MARKETING SOLUTIONS</div>
+  <h1>Scale Smarter. Trade Sharper.</h1>
+  <p class="sub">Premium network services for serious operators.</p>
+  <a class="btn" href="https://t.me/ig_sato" target="_blank">Contact on Telegram @ig_sato</a>
+</header>
+
+<section id="services">
+  <h2 class="reveal">What We Do</h2>
+  <div class="grid">
+    <div class="card reveal">
+      <svg viewBox="0 0 24 24"><path d="M7 7h11l-3-3M17 17H6l3 3"/></svg>
+      <h3>Portfolio Handovers</h3>
+      <p>Premium asset transfers, handled discreetly and professionally for those who know their value.</p>
+    </div>
+    <div class="card reveal">
+      <svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-9M15 6h6v6"/></svg>
+      <h3>Organic Scaling</h3>
+      <p>Real growth, built the right way. No shortcuts, just results that last.</p>
+    </div>
+    <div class="card reveal">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
+      <h3>Reach Solutions</h3>
+      <p>Targeted visibility for your network, tailored to your goals.</p>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <h2 class="reveal">Why Insiders Choose GDBY</h2>
+  <div class="grid">
+    <div class="card reveal">
+      <h3>Beyond Ordinary</h3>
+      <p>Others offer shortcuts. We deliver the standard they wish they could match.</p>
+    </div>
+    <div class="card reveal">
+      <h3>A Quiet Reputation</h3>
+      <p>No loud promises here. Those who know, already know.</p>
+    </div>
+    <div class="card reveal">
+      <h3>One Name Only</h3>
+      <p>If it isn't GDBY, it isn't us. Ask for the name and accept no substitutes.</p>
+    </div>
+  </div>
+</section>
+
+<section id="payment">
+  <h2 class="reveal">Payment Methods</h2>
+  <div class="pay reveal">
+    <div class="chip">📲 UPI</div>
+    <div class="chip">🏦 Bank Transfer</div>
+    <div class="chip">💸 PayPal</div>
+    <div class="chip">🪙 Crypto (USDT)</div>
+  </div>
+  <p class="note reveal">Payment details are shared directly on Telegram after terms are agreed. Never pay to any number or link not given by us personally.</p>
+</section>
+
+<section id="terms">
+  <h2 class="reveal">Terms &amp; Conditions</h2>
+  <div class="reveal">
+    <details open>
+      <summary>1. Agreement</summary>
+      <p>By engaging our services you confirm you are 18 or older and agree to these terms. Scope, price and timeline are confirmed in writing on Telegram before any payment.</p>
+    </details>
+    <details>
+      <summary>2. Platform Risk</summary>
+      <p>Social media platforms have their own rules on account transfers and promotion. You accept that platform actions such as restrictions or removals can happen and are outside our control.</p>
+    </details>
+    <details>
+      <summary>3. Payments &amp; Refunds</summary>
+      <p>Payment is made before delivery unless agreed otherwise. Refund conditions, if any, are stated in the written agreement for each order.</p>
+    </details>
+    <details>
+      <summary>4. Privacy</summary>
+      <p>Client details and order information are kept private and are not shared with third parties.</p>
+    </details>
+    <details>
+      <summary>5. Changes</summary>
+      <p>We may update these terms at any time. The version at the time of your order applies.</p>
+    </details>
+  </div>
+</section>
+
+<footer>© GDBY Marketing Solutions. All rights reserved.</footer>
+
+<script>
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); io.unobserve(e.target); } }), { threshold:.15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
